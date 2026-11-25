@@ -1,0 +1,632 @@
+{
+    "item":  [
+                 {
+                     "request":  {
+                                     "body":  {
+                                                  "raw":  "{\"fullName\":\"Sample Teacher\",\"email\":\"{{email}}\",\"password\":\"{{password}}\"}",
+                                                  "options":  {
+                                                                  "raw":  {
+                                                                              "language":  "json"
+                                                                          }
+                                                              },
+                                                  "mode":  "raw"
+                                              },
+                                     "method":  "POST",
+                                     "url":  "{{baseUrl}}/auth/register",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "application/json"
+                                                    }
+                                                ],
+                                     "auth":  {
+                                                  "type":  "noauth"
+                                              }
+                                 },
+                     "name":  "Register teacher",
+                     "event":  [
+                                   {
+                                       "script":  {
+                                                      "exec":  [
+                                                                   "pm.test(\"Request succeeded\", () =\u003e pm.expect(pm.response.code).to.be.within(200, 299));",
+                                                                   "pm.collectionVariables.set(\"token\", pm.response.json().data.token);"
+                                                               ],
+                                                      "type":  "text/javascript"
+                                                  },
+                                       "listen":  "test"
+                                   }
+                               ]
+                 },
+                 {
+                     "request":  {
+                                     "body":  {
+                                                  "raw":  "{\"email\":\"{{email}}\",\"password\":\"{{password}}\"}",
+                                                  "options":  {
+                                                                  "raw":  {
+                                                                              "language":  "json"
+                                                                          }
+                                                              },
+                                                  "mode":  "raw"
+                                              },
+                                     "method":  "POST",
+                                     "url":  "{{baseUrl}}/auth/login",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "application/json"
+                                                    }
+                                                ],
+                                     "auth":  {
+                                                  "type":  "noauth"
+                                              }
+                                 },
+                     "name":  "Login teacher",
+                     "event":  [
+                                   {
+                                       "script":  {
+                                                      "exec":  [
+                                                                   "pm.test(\"Request succeeded\", () =\u003e pm.expect(pm.response.code).to.be.within(200, 299));",
+                                                                   "pm.collectionVariables.set(\"token\", pm.response.json().data.token);"
+                                                               ],
+                                                      "type":  "text/javascript"
+                                                  },
+                                       "listen":  "test"
+                                   }
+                               ]
+                 },
+                 {
+                     "request":  {
+                                     "method":  "GET",
+                                     "url":  "{{baseUrl}}/auth/me",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "application/json"
+                                                    }
+                                                ]
+                                 },
+                     "name":  "Current teacher",
+                     "event":  [
+                                   {
+                                       "script":  {
+                                                      "exec":  [
+                                                                   "pm.test(\"Request succeeded\", () =\u003e pm.expect(pm.response.code).to.be.within(200, 299));"
+                                                               ],
+                                                      "type":  "text/javascript"
+                                                  },
+                                       "listen":  "test"
+                                   }
+                               ]
+                 },
+                 {
+                     "request":  {
+                                     "body":  {
+                                                  "raw":  "{\"fullName\":\"Arun Kumar\",\"rollId\":\"{{rollId}}\",\"className\":\"Third Year\",\"subjectGroup\":\"Computer Science\",\"enrollmentDate\":\"2020-01-01\",\"academicNotes\":\"Good progress\"}",
+                                                  "options":  {
+                                                                  "raw":  {
+                                                                              "language":  "json"
+                                                                          }
+                                                              },
+                                                  "mode":  "raw"
+                                              },
+                                     "method":  "POST",
+                                     "url":  "{{baseUrl}}/students",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "application/json"
+                                                    }
+                                                ]
+                                 },
+                     "name":  "Create student",
+                     "event":  [
+                                   {
+                                       "script":  {
+                                                      "exec":  [
+                                                                   "pm.test(\"Request succeeded\", () =\u003e pm.expect(pm.response.code).to.be.within(200, 299));",
+                                                                   "pm.collectionVariables.set(\"studentId\", pm.response.json().data.id);"
+                                                               ],
+                                                      "type":  "text/javascript"
+                                                  },
+                                       "listen":  "test"
+                                   }
+                               ]
+                 },
+                 {
+                     "request":  {
+                                     "method":  "GET",
+                                     "url":  "{{baseUrl}}/students?search=kumar\u0026subjectGroup=Computer%20Science\u0026page=0\u0026size=20",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "application/json"
+                                                    }
+                                                ]
+                                 },
+                     "name":  "Search and filter students",
+                     "event":  [
+                                   {
+                                       "script":  {
+                                                      "exec":  [
+                                                                   "pm.test(\"Request succeeded\", () =\u003e pm.expect(pm.response.code).to.be.within(200, 299));"
+                                                               ],
+                                                      "type":  "text/javascript"
+                                                  },
+                                       "listen":  "test"
+                                   }
+                               ]
+                 },
+                 {
+                     "request":  {
+                                     "method":  "GET",
+                                     "url":  "{{baseUrl}}/students/{{studentId}}",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "application/json"
+                                                    }
+                                                ]
+                                 },
+                     "name":  "Get student",
+                     "event":  [
+                                   {
+                                       "script":  {
+                                                      "exec":  [
+                                                                   "pm.test(\"Request succeeded\", () =\u003e pm.expect(pm.response.code).to.be.within(200, 299));"
+                                                               ],
+                                                      "type":  "text/javascript"
+                                                  },
+                                       "listen":  "test"
+                                   }
+                               ]
+                 },
+                 {
+                     "request":  {
+                                     "body":  {
+                                                  "raw":  "{\"fullName\":\"Arun Kumar\",\"rollId\":\"{{rollId}}\",\"className\":\"Final Year\",\"subjectGroup\":\"Computer Science\",\"enrollmentDate\":\"2020-01-01\",\"academicNotes\":\"Improved participation\"}",
+                                                  "options":  {
+                                                                  "raw":  {
+                                                                              "language":  "json"
+                                                                          }
+                                                              },
+                                                  "mode":  "raw"
+                                              },
+                                     "method":  "PATCH",
+                                     "url":  "{{baseUrl}}/students/{{studentId}}",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "application/json"
+                                                    }
+                                                ]
+                                 },
+                     "name":  "Edit student",
+                     "event":  [
+                                   {
+                                       "script":  {
+                                                      "exec":  [
+                                                                   "pm.test(\"Request succeeded\", () =\u003e pm.expect(pm.response.code).to.be.within(200, 299));"
+                                                               ],
+                                                      "type":  "text/javascript"
+                                                  },
+                                       "listen":  "test"
+                                   }
+                               ]
+                 },
+                 {
+                     "request":  {
+                                     "body":  {
+                                                  "raw":  "{\"studentId\":{{studentId}},\"attendanceDate\":\"{{date}}\",\"status\":\"PRESENT\"}",
+                                                  "options":  {
+                                                                  "raw":  {
+                                                                              "language":  "json"
+                                                                          }
+                                                              },
+                                                  "mode":  "raw"
+                                              },
+                                     "method":  "POST",
+                                     "url":  "{{baseUrl}}/attendance",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "application/json"
+                                                    }
+                                                ]
+                                 },
+                     "name":  "Mark attendance",
+                     "event":  [
+                                   {
+                                       "script":  {
+                                                      "exec":  [
+                                                                   "pm.test(\"Request succeeded\", () =\u003e pm.expect(pm.response.code).to.be.within(200, 299));",
+                                                                   "pm.collectionVariables.set(\"attendanceId\", pm.response.json().data.id);"
+                                                               ],
+                                                      "type":  "text/javascript"
+                                                  },
+                                       "listen":  "test"
+                                   }
+                               ]
+                 },
+                 {
+                     "request":  {
+                                     "method":  "GET",
+                                     "url":  "{{baseUrl}}/attendance?date={{date}}",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "application/json"
+                                                    }
+                                                ]
+                                 },
+                     "name":  "Daily attendance",
+                     "event":  [
+                                   {
+                                       "script":  {
+                                                      "exec":  [
+                                                                   "pm.test(\"Request succeeded\", () =\u003e pm.expect(pm.response.code).to.be.within(200, 299));"
+                                                               ],
+                                                      "type":  "text/javascript"
+                                                  },
+                                       "listen":  "test"
+                                   }
+                               ]
+                 },
+                 {
+                     "request":  {
+                                     "body":  {
+                                                  "raw":  "{\"studentId\":{{studentId}},\"attendanceDate\":\"{{date}}\",\"status\":\"LATE\"}",
+                                                  "options":  {
+                                                                  "raw":  {
+                                                                              "language":  "json"
+                                                                          }
+                                                              },
+                                                  "mode":  "raw"
+                                              },
+                                     "method":  "PATCH",
+                                     "url":  "{{baseUrl}}/attendance/{{attendanceId}}",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "application/json"
+                                                    }
+                                                ]
+                                 },
+                     "name":  "Edit attendance",
+                     "event":  [
+                                   {
+                                       "script":  {
+                                                      "exec":  [
+                                                                   "pm.test(\"Request succeeded\", () =\u003e pm.expect(pm.response.code).to.be.within(200, 299));"
+                                                               ],
+                                                      "type":  "text/javascript"
+                                                  },
+                                       "listen":  "test"
+                                   }
+                               ]
+                 },
+                 {
+                     "request":  {
+                                     "body":  {
+                                                  "raw":  "{\"records\":[{\"studentId\":{{studentId}},\"attendanceDate\":\"{{date}}\",\"status\":\"PRESENT\"}]}",
+                                                  "options":  {
+                                                                  "raw":  {
+                                                                              "language":  "json"
+                                                                          }
+                                                              },
+                                                  "mode":  "raw"
+                                              },
+                                     "method":  "POST",
+                                     "url":  "{{baseUrl}}/attendance/bulk",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "application/json"
+                                                    }
+                                                ]
+                                 },
+                     "name":  "Bulk attendance upsert",
+                     "event":  [
+                                   {
+                                       "script":  {
+                                                      "exec":  [
+                                                                   "pm.test(\"Request succeeded\", () =\u003e pm.expect(pm.response.code).to.be.within(200, 299));"
+                                                               ],
+                                                      "type":  "text/javascript"
+                                                  },
+                                       "listen":  "test"
+                                   }
+                               ]
+                 },
+                 {
+                     "request":  {
+                                     "method":  "GET",
+                                     "url":  "{{baseUrl}}/students/{{studentId}}/attendance",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "application/json"
+                                                    }
+                                                ]
+                                 },
+                     "name":  "Attendance history",
+                     "event":  [
+                                   {
+                                       "script":  {
+                                                      "exec":  [
+                                                                   "pm.test(\"Request succeeded\", () =\u003e pm.expect(pm.response.code).to.be.within(200, 299));"
+                                                               ],
+                                                      "type":  "text/javascript"
+                                                  },
+                                       "listen":  "test"
+                                   }
+                               ]
+                 },
+                 {
+                     "request":  {
+                                     "method":  "GET",
+                                     "url":  "{{baseUrl}}/students/{{studentId}}/attendance/summary",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "application/json"
+                                                    }
+                                                ]
+                                 },
+                     "name":  "Attendance summary",
+                     "event":  [
+                                   {
+                                       "script":  {
+                                                      "exec":  [
+                                                                   "pm.test(\"Request succeeded\", () =\u003e pm.expect(pm.response.code).to.be.within(200, 299));"
+                                                               ],
+                                                      "type":  "text/javascript"
+                                                  },
+                                       "listen":  "test"
+                                   }
+                               ]
+                 },
+                 {
+                     "request":  {
+                                     "body":  {
+                                                  "raw":  "{\"category\":\"PARTICIPATION\",\"content\":\"Led the classroom discussion.\"}",
+                                                  "options":  {
+                                                                  "raw":  {
+                                                                              "language":  "json"
+                                                                          }
+                                                              },
+                                                  "mode":  "raw"
+                                              },
+                                     "method":  "POST",
+                                     "url":  "{{baseUrl}}/students/{{studentId}}/notes",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "application/json"
+                                                    }
+                                                ]
+                                 },
+                     "name":  "Create participation note",
+                     "event":  [
+                                   {
+                                       "script":  {
+                                                      "exec":  [
+                                                                   "pm.test(\"Request succeeded\", () =\u003e pm.expect(pm.response.code).to.be.within(200, 299));",
+                                                                   "pm.collectionVariables.set(\"noteId\", pm.response.json().data.id);"
+                                                               ],
+                                                      "type":  "text/javascript"
+                                                  },
+                                       "listen":  "test"
+                                   }
+                               ]
+                 },
+                 {
+                     "request":  {
+                                     "method":  "GET",
+                                     "url":  "{{baseUrl}}/students/{{studentId}}/notes",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "application/json"
+                                                    }
+                                                ]
+                                 },
+                     "name":  "List notes",
+                     "event":  [
+                                   {
+                                       "script":  {
+                                                      "exec":  [
+                                                                   "pm.test(\"Request succeeded\", () =\u003e pm.expect(pm.response.code).to.be.within(200, 299));"
+                                                               ],
+                                                      "type":  "text/javascript"
+                                                  },
+                                       "listen":  "test"
+                                   }
+                               ]
+                 },
+                 {
+                     "request":  {
+                                     "body":  {
+                                                  "raw":  "{\"category\":\"ACADEMIC_PROGRESS\",\"content\":\"Consistently improving.\"}",
+                                                  "options":  {
+                                                                  "raw":  {
+                                                                              "language":  "json"
+                                                                          }
+                                                              },
+                                                  "mode":  "raw"
+                                              },
+                                     "method":  "PATCH",
+                                     "url":  "{{baseUrl}}/notes/{{noteId}}",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "application/json"
+                                                    }
+                                                ]
+                                 },
+                     "name":  "Edit note",
+                     "event":  [
+                                   {
+                                       "script":  {
+                                                      "exec":  [
+                                                                   "pm.test(\"Request succeeded\", () =\u003e pm.expect(pm.response.code).to.be.within(200, 299));"
+                                                               ],
+                                                      "type":  "text/javascript"
+                                                  },
+                                       "listen":  "test"
+                                   }
+                               ]
+                 },
+                 {
+                     "request":  {
+                                     "method":  "GET",
+                                     "url":  "{{baseUrl}}/dashboard?date={{date}}",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "application/json"
+                                                    }
+                                                ]
+                                 },
+                     "name":  "Dashboard",
+                     "event":  [
+                                   {
+                                       "script":  {
+                                                      "exec":  [
+                                                                   "pm.test(\"Request succeeded\", () =\u003e pm.expect(pm.response.code).to.be.within(200, 299));"
+                                                               ],
+                                                      "type":  "text/javascript"
+                                                  },
+                                       "listen":  "test"
+                                   }
+                               ]
+                 },
+                 {
+                     "request":  {
+                                     "method":  "DELETE",
+                                     "url":  "{{baseUrl}}/notes/{{noteId}}",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "application/json"
+                                                    }
+                                                ]
+                                 },
+                     "name":  "Delete note",
+                     "event":  [
+                                   {
+                                       "script":  {
+                                                      "exec":  [
+                                                                   "pm.test(\"Request succeeded\", () =\u003e pm.expect(pm.response.code).to.be.within(200, 299));"
+                                                               ],
+                                                      "type":  "text/javascript"
+                                                  },
+                                       "listen":  "test"
+                                   }
+                               ]
+                 },
+                 {
+                     "request":  {
+                                     "method":  "DELETE",
+                                     "url":  "{{baseUrl}}/students/{{studentId}}",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "application/json"
+                                                    }
+                                                ]
+                                 },
+                     "name":  "Archive student",
+                     "event":  [
+                                   {
+                                       "script":  {
+                                                      "exec":  [
+                                                                   "pm.test(\"Request succeeded\", () =\u003e pm.expect(pm.response.code).to.be.within(200, 299));"
+                                                               ],
+                                                      "type":  "text/javascript"
+                                                  },
+                                       "listen":  "test"
+                                   }
+                               ]
+                 },
+                 {
+                     "name":  "Health",
+                     "request":  {
+                                     "method":  "GET",
+                                     "url":  "{{serverUrl}}/actuator/health",
+                                     "auth":  {
+                                                  "type":  "noauth"
+                                              }
+                                 }
+                 }
+             ],
+    "variable":  [
+                     {
+                         "key":  "baseUrl",
+                         "value":  "http://127.0.0.1:8080/api/v1"
+                     },
+                     {
+                         "key":  "serverUrl",
+                         "value":  "http://127.0.0.1:8080"
+                     },
+                     {
+                         "key":  "email",
+                         "value":  ""
+                     },
+                     {
+                         "key":  "password",
+                         "value":  "ExamplePassword123!"
+                     },
+                     {
+                         "key":  "rollId",
+                         "value":  ""
+                     },
+                     {
+                         "key":  "date",
+                         "value":  ""
+                     },
+                     {
+                         "key":  "token",
+                         "value":  ""
+                     },
+                     {
+                         "key":  "studentId",
+                         "value":  ""
+                     },
+                     {
+                         "key":  "attendanceId",
+                         "value":  ""
+                     },
+                     {
+                         "key":  "noteId",
+                         "value":  ""
+                     }
+                 ],
+    "info":  {
+                 "description":  "Run in order. A new teacher and student are created; the last requests delete the note and archive the student. Clear email and rollId collection variables for a fresh run.",
+                 "name":  "ClassTrack API",
+                 "schema":  "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+             },
+    "event":  [
+                  {
+                      "script":  {
+                                     "exec":  [
+                                                  "if (!pm.collectionVariables.get(\"email\")) pm.collectionVariables.set(\"email\", \"teacher\" + Date.now() + \"@example.com\");",
+                                                  "if (!pm.collectionVariables.get(\"rollId\")) pm.collectionVariables.set(\"rollId\", \"CSE\" + Date.now());",
+                                                  "if (!pm.collectionVariables.get(\"date\")) pm.collectionVariables.set(\"date\", new Date().toISOString().slice(0, 10));"
+                                              ],
+                                     "type":  "text/javascript"
+                                 },
+                      "listen":  "prerequest"
+                  }
+              ],
+    "auth":  {
+                 "bearer":  [
+                                {
+                                    "key":  "token",
+                                    "type":  "string",
+                                    "value":  "{{token}}"
+                                }
+                            ],
+                 "type":  "bearer"
+             }
+}

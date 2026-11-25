@@ -1,0 +1,4 @@
+API_BASE_URL = https:/$()/api.example.com/api/v1
+SWIFT_COMPILATION_MODE = wholemodule
+SWIFT_OPTIMIZATION_LEVEL = -O
+INFOPLIST_FILE = Config/Info-Release.plist

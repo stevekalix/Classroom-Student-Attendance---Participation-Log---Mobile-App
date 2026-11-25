@@ -1,0 +1,47 @@
+name: classtrack
+services:
+  db:
+    image: mysql:8.0.42
+    environment:
+      MYSQL_DATABASE: classtrack_db
+      MYSQL_USER: classtrack
+      MYSQL_PASSWORD: ${DB_PASSWORD:?Run Start-Docker.ps1 or configure .env first}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Run Start-Docker.ps1 or configure .env first}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "MYSQL_PWD=\"$${MYSQL_PASSWORD}\" mysql --host=127.0.0.1 --user=\"$${MYSQL_USER}\" --database=\"$${MYSQL_DATABASE}\" --execute='SELECT 1' --silent > /dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+      start_period: 40s
+    restart: unless-stopped
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: classtrack-backend:local
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_URL: jdbc:mysql://db:3306/classtrack_db?connectionTimeZone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+      DB_USERNAME: classtrack
+      DB_PASSWORD: ${DB_PASSWORD:?Run Start-Docker.ps1 or configure .env first}
+      JWT_SECRET: ${JWT_SECRET:?Run Start-Docker.ps1 or configure .env first}
+      JWT_EXPIRATION_SECONDS: ${JWT_EXPIRATION_SECONDS:-3600}
+      PORT: "8080"
+    ports:
+      - "${HOST_BIND:-127.0.0.1}:${BACKEND_PORT:-8080}:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    read_only: true
+    tmpfs:
+      - /tmp:size=128m,mode=1777
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    stop_grace_period: 30s
+volumes:
+  mysql-data:

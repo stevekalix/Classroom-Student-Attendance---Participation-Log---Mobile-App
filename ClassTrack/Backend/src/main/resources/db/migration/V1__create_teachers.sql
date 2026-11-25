@@ -1,0 +1,6 @@
+CREATE TABLE teachers (
+ id BIGINT PRIMARY KEY AUTO_INCREMENT, full_name VARCHAR(150) NOT NULL,
+ email VARCHAR(254) NOT NULL, password_hash VARCHAR(255) NOT NULL, role VARCHAR(30) NOT NULL,
+ created_at DATETIME(6) NOT NULL, updated_at DATETIME(6) NOT NULL,
+ CONSTRAINT uq_teacher_email UNIQUE(email)
+) ENGINE=InnoDB;
